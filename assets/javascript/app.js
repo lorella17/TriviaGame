@@ -3,7 +3,7 @@ var userAnswer = '';
 var correctA= 0;
 var incorrectAnswer = 0;
 var questionNum =0;
-var count = 15;
+var count = 90;
 
 
 // jQuery Ready Function waits for the document to complete loading before initiating JavaScript
@@ -76,19 +76,24 @@ $(document).ready(function() {
             }
         ];
 
+    var countDown = setInterval(timer, 1000);
+
     // When random-button is clicked...
     $("#Start").on("click", function() {
         $(this).hide();
-        counter = setInterval(timer, 1000);
+        countDown;
         displayTrivia();
 
     });
 
     function timer(){
         count--;
-        if (count <= 0) {
-            clearInterval(counter);
-            return;
+        console.log(count);
+        if (count === 0) {
+            clearInterval(countDown);
+            $('#random-question').empty();
+            $('#multiple-answers').empty();
+
         }
 
         $("#clock").html("Time remaining: " + "00:" + count + " secs");
@@ -97,8 +102,7 @@ $(document).ready(function() {
 
     function displayTrivia() {
         $('#random-question').html(randomQuestions[questionNum].question);
-
-
+        $('#multiple-answers').empty();
 
         // // Then create a loop that generates the question.
         for (var i = 0; i < randomQuestions[questionNum].choices.length; i++) {
@@ -109,7 +113,6 @@ $(document).ready(function() {
             $("#multiple-answers").css("color", "orange");
 
         }
-
 
 
     }
@@ -123,15 +126,13 @@ $(document).ready(function() {
         if(userAnswer !== randomQuestions[questionNum].answer){
             $('#multiple-answers').text('Wrong!!');
             $("#multiple-answers").css("color", "red");
-            
+            console.log("inside wrong question");
+
             incorrectAnswer++;
 
-            $("#Losses").html(incorrectAnswer);
+            $("#Losses").text(`Losses: ${incorrectAnswer}`);
             questionNum++;
-            setTimeout(timerExpired, 10000);
-
-            randomQuestions= setInterval(displayTrivia, 1000);
-
+            setTimeout(displayTrivia, 3000);
 
 
 
@@ -139,12 +140,12 @@ $(document).ready(function() {
         } else if (userAnswer === randomQuestions[questionNum].answer){
             $('#multiple-answers').text('You are Correct');
             $("#multiple-answers").css("color", "gold");
+            console.log("inside correct answer");
 
             correctA++;
-            $("#Wins").html(correctA);
-            setTimeout(timerExpired, 10000);
+            $("#Wins").text(`Wins: ${correctA}`);
+            setTimeout(displayTrivia, 3000);
             questionNum++;
-            displayTrivia();
 
 
         }
@@ -158,4 +159,4 @@ $(document).ready(function() {
 // .empty
 // timeoutfunction with own interval
 // pausing clock
-
+//set timeout
