@@ -1,0 +1,14 @@
+body{
+    background-image: url("../images/805812c4f4246d2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.container{
+    margin-top: 5%;
+    text-align: center;
+
+    font-size: 28px;
+    color: white;
+
+}
